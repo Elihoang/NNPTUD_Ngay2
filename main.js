@@ -64,11 +64,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return cleaned.startsWith('http') ? cleaned : null;
     }
 
-    // Get image URL with fallback logic
+    // Get image URL from product.images only
     function getImageUrl(product) {
         let imageUrl = 'https://placehold.co/100x80?text=No+Image';
         
-        // Try to get from images array
         if (product.images) {
             let images = product.images;
             
@@ -88,14 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         break;
                     }
                 }
-            }
-        }
-
-        // Fallback to category image
-        if ((imageUrl === 'https://placehold.co/100x80?text=No+Image' || !imageUrl) && product.category && product.category.image) {
-            const catImg = cleanUrl(product.category.image);
-            if (catImg) {
-                imageUrl = catImg;
             }
         }
 
