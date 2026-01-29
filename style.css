@@ -265,3 +265,35 @@ h1 {
         font-size: 13px;
     }
 }
+
+/* Strikethrough style for deleted posts */
+.text-decoration-line-through {
+    text-decoration: line-through !important;
+    opacity: 0.6;
+}
+
+/* Modal improvements */
+.modal-content {
+    border-radius: 8px;
+}
+
+.modal-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.modal-footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+}
+
+/* Button group improvements */
+.btn-group-sm .btn {
+    padding: 4px 8px;
+    font-size: 0.875rem;
+}
+
+/* Alert for errors */
+.text-danger {
+    color: #dc3545 !important;
+}
