@@ -1,162 +1,148 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản Lý Posts & Comments</title>
-    
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+    <title>Posts & Comments Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .deleted {
+            text-decoration: line-through;
+            color: #999;
+            background-color: #ffe6e6;
+        }
+        input[type="text"], input[type="number"], select {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            min-width: 200px;
+        }
+        input[type="submit"], button {
+            padding: 8px 16px;
+            margin: 5px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover, button:hover {
+            background-color: #0056b3;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+        }
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+        .restore-btn {
+            background-color: #28a745;
+        }
+        .restore-btn:hover {
+            background-color: #218838;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
+
 <body>
-    <div class="container-fluid py-4">
-        <!-- Header -->
-        <header class="mb-4">
-            <h1 class="text-center mb-2">Quản Lý Posts & Comments</h1>
-            <p class="text-center text-muted">Hệ thống CRUD với JSON Server</p>
-        </header>
+    <h1>Posts & Comments Management System</h1>
+    
+    <!-- Posts Section -->
+    <div class="container">
+        <h2>Posts</h2>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Views</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
 
-        <!-- Posts Section -->
-        <div class="card shadow-sm mb-4">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">
-                    Danh Sách Posts
-                    <span class="badge bg-secondary ms-2" id="postCount">0</span>
-                </h5>
-                <button class="btn btn-primary btn-sm" id="btnAddPost">
-                    <i class="fas fa-plus me-1"></i>Thêm Post
-                </button>
-            </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover table-striped align-middle mb-0">
-                        <thead class="table-dark">
-                            <tr>
-                                <th style="width: 80px;">ID</th>
-                                <th>Tiêu Đề</th>
-                                <th style="width: 120px;">Lượt Xem</th>
-                                <th style="width: 120px;">Trạng Thái</th>
-                                <th style="width: 150px;">Thao Tác</th>
-                            </tr>
-                        </thead>
-                        <tbody id="postsTableBody">
-                            <tr>
-                                <td colspan="5" class="text-center py-5">
-                                    <div class="spinner-border text-primary" role="status">
-                                        <span class="visually-hidden">Đang tải...</span>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                </tbody>
+            </table>
         </div>
-
-        <!-- Comments Section -->
-        <div class="card shadow-sm">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">
-                    Danh Sách Comments
-                    <span class="badge bg-secondary ms-2" id="commentCount">0</span>
-                </h5>
-                <button class="btn btn-success btn-sm" id="btnAddComment">
-                    <i class="fas fa-plus me-1"></i>Thêm Comment
-                </button>
-            </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover table-striped align-middle mb-0">
-                        <thead class="table-dark">
-                            <tr>
-                                <th style="width: 80px;">ID</th>
-                                <th>Nội Dung</th>
-                                <th style="width: 150px;">Post ID</th>
-                                <th style="width: 150px;">Thao Tác</th>
-                            </tr>
-                        </thead>
-                        <tbody id="commentsTableBody">
-                            <tr>
-                                <td colspan="4" class="text-center py-5">
-                                    <div class="spinner-border text-primary" role="status">
-                                        <span class="visually-hidden">Đang tải...</span>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        <div class="form-group">
+            <h3>Add/Edit Post</h3>
+            <input type="text" placeholder="Leave empty for new post" id="id_txt" readonly />
+            <input type="text" placeholder="Title" id="title_txt" />
+            <input type="number" placeholder="Views" id="views_txt" />
+            <input type="submit" value="Save Post" onclick="SavePost()">
+            <button onclick="ClearPostForm()">Clear</button>
         </div>
     </div>
 
-    <!-- Post Modal -->
-    <div class="modal fade" id="postModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="postModalTitle">Thêm Post</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="postForm">
-                        <input type="hidden" id="postId">
-                        <div class="mb-3">
-                            <label for="postTitle" class="form-label">Tiêu Đề</label>
-                            <input type="text" class="form-control" id="postTitle" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="postViews" class="form-label">Lượt Xem</label>
-                            <input type="number" class="form-control" id="postViews" value="0" required>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary" id="btnSavePost">Lưu</button>
-                </div>
-            </div>
+    <!-- Comments Section -->
+    <div class="container">
+        <h2>Comments</h2>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Comment</th>
+                        <th>Post ID</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="comments-table-body">
+
+                </tbody>
+            </table>
+        </div>
+        <div class="form-group">
+            <h3>Add/Edit Comment</h3>
+            <input type="text" placeholder="Leave empty for new comment" id="comment_id_txt" readonly />
+            <input type="text" placeholder="Comment text" id="comment_text_txt" />
+            <select id="comment_post_id_txt">
+                <option value="">-- Select Post --</option>
+            </select>
+            <input type="submit" value="Save Comment" onclick="SaveComment()">
+            <button onclick="ClearCommentForm()">Clear</button>
         </div>
     </div>
-
-    <!-- Comment Modal -->
-    <div class="modal fade" id="commentModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="commentModalTitle">Thêm Comment</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="commentForm">
-                        <input type="hidden" id="commentId">
-                        <div class="mb-3">
-                            <label for="commentText" class="form-label">Nội Dung</label>
-                            <textarea class="form-control" id="commentText" rows="3" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="commentPostId" class="form-label">Post ID</label>
-                            <select class="form-select" id="commentPostId" required>
-                                <option value="">Chọn Post...</option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-success" id="btnSaveComment">Lưu</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bootstrap 5 JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Custom JS -->
-    <script src="app.js"></script>
+    <script src="main.js?v=3"></script>
 </body>
+
 </html>
